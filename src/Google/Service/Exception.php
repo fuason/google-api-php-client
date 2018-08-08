@@ -65,4 +65,26 @@ class Google_Service_Exception extends Google_Exception
   {
     return $this->errors;
   }
+
+
+
+  public function getErrorDetails() {
+    $data = json_decode($this->message);
+    if (isset($data->error) && isset($data->error->details)) {
+      $errors = array_map(function($error) {
+        return array_map(function($er) {
+          return $er->message;
+        }, $error->errorDetails);
+      }, $data->error->details);
+
+      return array_merge(...$errors);
+    }
+    return [];
+  }
+
+
+  public function getErrorDetailsText() {
+    $errors = $this->getErrorDetails();
+    return implode(', ', $errors);
+  }
 }
