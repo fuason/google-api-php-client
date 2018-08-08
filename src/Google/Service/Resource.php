@@ -197,7 +197,10 @@ class Google_Service_Resource
     $request = new Request(
         $method['httpMethod'],
         $url,
-        ['content-type' => 'application/json'],
+        [
+        	'content-type' => 'application/json',
+        	'X-GOOG-API-FORMAT-VERSION' => 2,
+        ],
         $postBody ? json_encode($postBody) : ''
     );
 
